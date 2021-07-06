@@ -85,6 +85,14 @@ public class FanficDto {
         this.fandom = fandom;
     }
 
+    public Date getAddedDate() {
+        return addedDate;
+    }
+
+    public void setAddedDate(Date addedDate) {
+        this.addedDate = addedDate;
+    }
+
     public List<ChapterStruct> getChapters() {
         return chapters;
     }

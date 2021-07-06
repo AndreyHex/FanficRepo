@@ -2,14 +2,20 @@ package com.fanficApp.service;
 
 import com.fanficApp.entity.Role;
 import com.fanficApp.entity.User;
+import com.fanficApp.jwt.JwtUtils;
 import com.fanficApp.repository.RoleRepo;
 import com.fanficApp.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +31,12 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    JwtUtils jwtUtils;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -54,6 +66,17 @@ public class UserService implements UserDetailsService {
 
     public List<User> findAll() {
         return userRepo.findAll();
+    }
+
+    public String authenticateUser(User user) throws Exception {
+        if(user.getUsername() == null || user.getPassword() == null) throw new Exception("Needed username and password.");
+        if(!userRepo.existsByUsername(user.getUsername())) throw new Exception("User not found");
+        Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+        if(!auth.isAuthenticated()) throw new Exception("Authentication error.");
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        String jwt = jwtUtils.generateJwtToken(auth);
+        return jwt;
     }
 
 }

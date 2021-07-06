@@ -1,4 +1,4 @@
-/*package com.fanficApp.controller;
+package com.fanficApp.controller;
 
 import com.fanficApp.dto.FanficDto;
 import com.fanficApp.service.FanficService;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,12 @@ import java.util.Optional;
 @Controller
 public class MainController {
 
-    @Autowired
+    @GetMapping(value = "/{[path:[^\\.]*}")
+    public String redirectApi() {
+        return "forward:/";
+    }
+
+    /*@Autowired
     FanficService fanficService;
 
     @GetMapping("/")
@@ -51,6 +57,6 @@ public class MainController {
     public String editor(Model model) {
         model.addAttribute("fragment", "editor");
         return "index";
-    }
+    }*/
 
-}*/
+}

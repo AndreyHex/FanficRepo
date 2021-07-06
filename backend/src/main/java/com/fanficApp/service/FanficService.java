@@ -29,19 +29,27 @@ public class FanficService {
     @Autowired
     TagRepo tagRepo;
 
-    public boolean saveFanfic(FanficDto fanficDto) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public FanficDto saveFanfic(FanficDto fanficDto) {
+        fanficDto.setId(null);
         Fanfic fanfic = convertToEntity(fanficDto);
-        if(fanficDto.getId() != null
-                && !fanfic.getUser().getUsername().equals(user.getUsername())
-                && !user.getRoles().stream().anyMatch(i -> i.getName().equals("ROLE_ADMIN"))) {
-            return false;
-        }
-        fanficRepo.save(fanfic);
-        return true;
+        return convertToDto(fanficRepo.save(fanfic));
     }
 
-    public boolean deleteById(Long id){
+    public FanficDto updateFanfic(FanficDto fanficDto) throws Exception {
+
+        Fanfic fanfic = fanficRepo.findById(fanficDto.getId()).orElse(null);
+        if(fanfic == null) throw new Exception("Not found.");
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(!fanfic.getUser().getUsername().equals(user.getUsername())
+                && !user.getRoles().stream().anyMatch(i -> i.getName().equals("ROLE_ADMIN")))
+            throw new Exception("Access denied.");
+
+        return convertToDto(fanficRepo.save(fanfic));
+    }
+
+    public boolean deleteById(Long id) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Fanfic fanfic = fanficRepo.findById(id).orElse(null);
         if(fanfic == null) return true;

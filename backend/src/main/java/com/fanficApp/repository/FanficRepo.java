@@ -12,4 +12,6 @@ public interface FanficRepo extends JpaRepository<Fanfic, Long> {
 
     Page<Fanfic> findByUserId(Long id, PageRequest pageRequest);
 
+    Fanfic save(Fanfic fanfic);
+
 }
