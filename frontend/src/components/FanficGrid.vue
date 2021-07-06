@@ -1,24 +1,26 @@
 <template>
   <el-row>
-    <span>Recently added</span>
+    <el-col>
+      <h2>Recently added</h2>
+    </el-col>
   </el-row>
   <el-row>
-    <el-col span="6">
+    <el-col span="3">
       <FanficCard/>
     </el-col>
-    <el-col span="6">
+    <el-col span="3">
       <FanficCard/>
     </el-col>
-    <el-col span="6">
+    <el-col span="3">
       <FanficCard/>
     </el-col>
-    <el-col span="6">
+    <el-col span="3">
       <FanficCard/>
     </el-col>
-    <el-col span="6">
+    <el-col span="3">
       <FanficCard/>
     </el-col>
-    <el-col span="6">
+    <el-col span="3">
       <FanficCard/>
     </el-col>
   </el-row>
@@ -36,5 +38,8 @@ export default {
 </script>
 
 <style scoped>
-
+  h2 {
+    font-size: xx-large;
+    margin: 5px;
+  }
 </style>

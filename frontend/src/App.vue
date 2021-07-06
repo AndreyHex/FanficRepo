@@ -34,5 +34,12 @@ export default {
     align-content: center;
     align-items: center;
     text-align: center;
+    border-bottom: 1px solid #dcdfe6;
   }
+
+</style>
+<style>
+#app {
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+}
 </style>

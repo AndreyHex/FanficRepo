@@ -2,7 +2,7 @@
   <el-card shadow="hover">
     <el-image
         src="https://via.placeholder.com/300.png"
-        fit="cover"/>
+        fit="fill"/>
     <div>
       <span class="card-title">Title</span>
       <div>
@@ -36,7 +36,8 @@ export default {
     font-size: 24px;
   }
   p {
-    text-overflow: ellipsis;
+    max-height: 150px;
+    text-overflow: clip;
     text-align: justify;
   }
   .tags {
