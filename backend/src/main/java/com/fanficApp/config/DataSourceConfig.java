@@ -13,8 +13,8 @@ public class DataSourceConfig {
 
     @Bean
     public DataSource getDataSource() throws URISyntaxException {
-        URI dbUri = new URI("mysql://ff:ff_pass@127.0.0.1/ffdb");
-        //URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+        //URI dbUri = new URI("mysql://ff:ff_pass@127.0.0.1/ffdb");
+        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
 
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
