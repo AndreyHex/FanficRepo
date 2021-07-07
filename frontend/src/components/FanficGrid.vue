@@ -1,29 +1,26 @@
 <template>
-  <el-row>
-    <el-col>
-      <h2>Recently added</h2>
-    </el-col>
-  </el-row>
-  <el-row>
-    <el-col span="3">
+
+  <a-row>
+    <a-col span="4">
       <FanficCard/>
-    </el-col>
-    <el-col span="3">
+    </a-col>
+    <a-col span="4">
       <FanficCard/>
-    </el-col>
-    <el-col span="3">
+    </a-col>
+    <a-col span="4">
       <FanficCard/>
-    </el-col>
-    <el-col span="3">
+    </a-col>
+    <a-col span="4">
       <FanficCard/>
-    </el-col>
-    <el-col span="3">
+    </a-col>
+    <a-col span="4">
       <FanficCard/>
-    </el-col>
-    <el-col span="3">
+    </a-col>
+    <a-col span="4">
       <FanficCard/>
-    </el-col>
-  </el-row>
+    </a-col>
+  </a-row>
+
 </template>
 
 <script>

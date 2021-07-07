@@ -1,45 +1,51 @@
 <template>
-  <el-container>
-    <el-header>
-      <Header/>
-    </el-header>
-    <el-container>
-      <el-aside>
-        <Sidemenu/>
-      </el-aside>
-      <el-main>
-          <router-view/>
-      </el-main>
-    </el-container>
+  <a-layout>
 
-  </el-container>
+    <a-layout-header>
+      <Header/>
+    </a-layout-header>
+
+    <a-layout>
+
+      <a-layout-sider>
+        <Sidemenu/>
+      </a-layout-sider>
+
+      <a-layout style="padding: 20px">
+        <a-layout-content
+            :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '800px' }">
+          <router-view></router-view>
+        </a-layout-content>
+      </a-layout>
+    </a-layout>
+  </a-layout>
 </template>
 
 <script>
-import Header from '@/components/Header.vue'
-import Sidemenu from "@/components/Sidemenu.vue";
+import Header from '@/components/Header'
+import Sidemenu from '@/components/Sidemenu'
 
 export default {
   name: 'App',
   components: {
     Header,
-    Sidemenu,
+    Sidemenu
   }
 }
-
 </script>
 
 <style scoped>
-  .el-header {
-    align-content: center;
-    align-items: center;
-    text-align: center;
-    border-bottom: 1px solid #dcdfe6;
-  }
-
+ .a-layout-content {
+   margin: 24px 16px;
+   padding: 24px;
+   background: #fff;
+   minHeight: 280px;
+ }
 </style>
+
 <style>
 #app {
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+
 }
 </style>

@@ -1,9 +1,21 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/router'
-import ElementPlus from 'element-plus'
-import 'element-plus/lib/theme-chalk/index.css'
+import { Button, Layout, Col, Row, Menu, Space, Typography, Card, Tag, Form, Input }  from "ant-design-vue"
+
 
 const app = createApp(App)
 
-app.use(ElementPlus).use(router).mount('#app')
+app.use(Layout)
+    .use(Button)
+    .use(Col)
+    .use(Row)
+    .use(Menu)
+    .use(Space)
+    .use(Typography)
+    .use(Card)
+    .use(Tag)
+    .use(Form)
+    .use(Input)
+
+app.use(router).mount('#app')
