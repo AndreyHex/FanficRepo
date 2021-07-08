@@ -22,10 +22,13 @@ public class AuthRestController {
     @PostMapping("/signup")
     @ResponseBody
     public ResponseEntity<?> signUp(@RequestBody User user) {
-        if(!userService.saveUser(user)) {
-            return ResponseEntity.badRequest().body(new Error("Error: username or/and email are already taken!"));
+        AuthResponse response;
+        try {
+            response = userService.registerUser(user);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new Error(e.getMessage()));
         }
-        return ResponseEntity.ok(new Message("User registered."));
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/signin")
@@ -33,7 +36,7 @@ public class AuthRestController {
     public ResponseEntity<?> signIn(@RequestBody User user) {
         AuthResponse response;
         try {
-            response = userService.authenticateUser(user);
+            response = userService.loginUser(user);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Error(e.getMessage()));
         }

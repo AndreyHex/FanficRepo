@@ -9,7 +9,8 @@ const apiService = axios.create({
 
 export default {
     fetchPage,
-    login
+    login,
+    register
 }
 
 function fetchPage(limit = 12) {
@@ -23,4 +24,9 @@ function fetchPage(limit = 12) {
 function login(user) {
     console.log(user)
     return apiService.post('auth/signin', user)
+}
+
+function register(user) {
+    console.log(user)
+    return apiService.post('auth/signup', user)
 }

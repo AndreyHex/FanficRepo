@@ -19,17 +19,22 @@ const getters = {
 }
 
 const actions = {
-    login({commit}, username, password) {
-        api.login(username, password).then(response => commit('setStatusSuccess', response.data))
+    login({commit}, user) {
+        api.login(user).then(response => commit('setStatusSuccess', response.data))
             .catch(error => commit('setStatusError', error))
     },
     logout({commit}) {
         commit('setStatusLogout')
+    },
+    register({commit}, user) {
+        api.register(user).then(response => commit('setStatusSuccess', response.data))
+            .catch(error => commit('setStatusError', error))
     }
 }
 
 const mutations = {
     setStatusSuccess(state, data) {
+        console.log(data)
         state.status = true
         state.user = data.user
         state.message = data.message

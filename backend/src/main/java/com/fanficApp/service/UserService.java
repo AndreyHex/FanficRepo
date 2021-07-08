@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -53,35 +54,49 @@ public class UserService implements UserDetailsService {
         return user.orElse(new User());
     }
 
-    public boolean saveUser(User user) {
-        User userFromDB = userRepo.findByUsername(user.getUsername());
-        if(userFromDB != null) {
-            return false;
+    public void saveUser(User user) throws EntityExistsException {
+        if(userRepo.existsByUsername(user.getUsername())) {
+            throw new EntityExistsException("User exists.");
         }
         user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setStatus(true);
-        userRepo.save(user);
-        return true;
+        userRepo.saveAndFlush(user);
+        roleRepo.flush();
     }
 
     public List<User> findAll() {
         return userRepo.findAll();
     }
 
-    public AuthResponse authenticateUser(User user) throws Exception {
+    public AuthResponse loginUser(User user) throws Exception {
         if(user.getUsername() == null || user.getPassword() == null) throw new Exception("Needed username and password.");
 
         User u = userRepo.findByUsername(user.getUsername());
         if(u == null) throw new Exception("User not found");
 
-        Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-
-        if(!auth.isAuthenticated()) throw new Exception("Authentication error.");
-
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        return new AuthResponse("Success", u, jwtUtils.generateJwtToken(auth));
+        String token = authenticateUser(user);
+        return new AuthResponse("Success", u, token);
     }
 
+    public AuthResponse registerUser(User user) throws Exception {
+        if(user.getUsername() == null || user.getPassword() == null) throw new Exception("Needed username and password.");
+
+        User u = new User();
+        u.setUsername(user.getUsername());
+        u.setPassword(user.getPassword());
+
+        saveUser(user);
+        String token = authenticateUser(u);
+        user.setPassword("");
+        return new AuthResponse("Register success", user, token);
+    }
+
+    private String authenticateUser(User user) throws Exception {
+        Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+        if(!auth.isAuthenticated()) throw new Exception("Authentication error.");
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        return jwtUtils.generateJwtToken(auth);
+    }
 }
