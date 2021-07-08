@@ -1,5 +1,6 @@
 package com.fanficApp.controller.rest;
 
+import com.fanficApp.dto.response.AuthResponse;
 import com.fanficApp.dto.response.Error;
 import com.fanficApp.dto.response.Message;
 import com.fanficApp.entity.User;
@@ -30,13 +31,13 @@ public class AuthRestController {
     @PostMapping("/signin")
     @ResponseBody
     public ResponseEntity<?> signIn(@RequestBody User user) {
-        String token = "";
+        AuthResponse response;
         try {
-            token = userService.authenticateUser(user);
+            response = userService.authenticateUser(user);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Error(e.getMessage()));
         }
-        return ResponseEntity.ok(String.format("{\"token\": \"%s\"}", token));
+        return ResponseEntity.ok(response);
     }
 
 }

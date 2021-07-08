@@ -29,7 +29,7 @@ public class FanficRestController {
         Page<FanficDto> ffList = fanficService.findAll(
                 page.orElse(0),
                 sort,
-                limit.orElse(8));
+                limit.orElse(6));
         if(ffList.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error("Not found."));
         return ResponseEntity.ok(ffList);
     }

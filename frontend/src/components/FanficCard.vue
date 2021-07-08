@@ -7,22 +7,27 @@
       <a-button type="primary" size="small">Read</a-button>
       <a-button type="warning" size="small">Circle</a-button>
     </template>
-    <a-card-meta
-        title="Long dfsj shdjkfh lakjhf kjasd dsd asd asd asd asda sd asd asd asd asdhfkj hasdjkf hklashdfkj hasdfkljh asldkjfhlkajsdhf kjsadhfjkhasdf jk"
-        description="Long dfsj shdjkfh lakjhf kjasd dsd asd asd asd asda sd asd asd asd asdhfkj hasdjkf hklashdfkj hasdfkljh asldk">
+    <a-card-meta>
+      <template v-slot:title>{{fanfic(index).title}}</template>
+      <template v-slot:description>{{fanfic(index).description}}</template>
     </a-card-meta>
     <div>
-      <a-tag>tagtag</a-tag>
-      <a-tag>tagtag</a-tag>
-      <a-tag>tagtag</a-tag>
-      <a-tag>tagtag</a-tag>
+      <template v-for="(tag, i) in fanfic(index).tags" :key="i">
+        <a-tag>{{ tag }}</a-tag>
+      </template>
     </div>
   </a-card>
 </template>
 
 <script>
+import { mapGetters } from "vuex"
+
 export default {
-  name: 'FanficCard'
+  name: 'FanficCard',
+  props: ['index'],
+  computed: {
+    ...mapGetters('page', { fanfic: 'getFanficByIndex' }),
+  }
 }
 </script>
 

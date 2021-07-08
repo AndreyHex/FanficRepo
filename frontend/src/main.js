@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/router'
+import store from './store'
 import { Button, Layout, Col, Row, Menu, Space, Typography, Card, Tag, Form, Input }  from "ant-design-vue"
 
 
@@ -18,4 +19,6 @@ app.use(Layout)
     .use(Form)
     .use(Input)
 
-app.use(router).mount('#app')
+app.use(router)
+    .use(store)
+    .mount('#app')

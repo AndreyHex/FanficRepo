@@ -1,5 +1,6 @@
 package com.fanficApp.service;
 
+import com.fanficApp.dto.response.AuthResponse;
 import com.fanficApp.entity.Role;
 import com.fanficApp.entity.User;
 import com.fanficApp.jwt.JwtUtils;
@@ -68,15 +69,19 @@ public class UserService implements UserDetailsService {
         return userRepo.findAll();
     }
 
-    public String authenticateUser(User user) throws Exception {
+    public AuthResponse authenticateUser(User user) throws Exception {
         if(user.getUsername() == null || user.getPassword() == null) throw new Exception("Needed username and password.");
-        if(!userRepo.existsByUsername(user.getUsername())) throw new Exception("User not found");
+
+        User u = userRepo.findByUsername(user.getUsername());
+        if(u == null) throw new Exception("User not found");
+
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+
         if(!auth.isAuthenticated()) throw new Exception("Authentication error.");
+
         SecurityContextHolder.getContext().setAuthentication(auth);
-        String jwt = jwtUtils.generateJwtToken(auth);
-        return jwt;
+        return new AuthResponse("Success", u, jwtUtils.generateJwtToken(auth));
     }
 
 }
