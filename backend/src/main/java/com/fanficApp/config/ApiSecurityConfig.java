@@ -53,13 +53,14 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .authorizeRequests()
-                    .antMatchers("/api/auth/**").permitAll()
-                    .antMatchers(HttpMethod.GET,"/api/**").permitAll()
-                    .antMatchers("/api/**").hasAnyRole("ADMIN", "USER")
-                    .antMatchers("/api/users/**").hasRole("ADMIN")
-                    .antMatchers("/").permitAll()
-                    .anyRequest().authenticated();
+                .authorizeRequests()
+                .antMatchers("/api/auth/current").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/api/auth/signin", "/api/auth/signup").permitAll()
+                .antMatchers("/api/users/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/**").permitAll()
+                .antMatchers("/api/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/").permitAll()
+                .anyRequest().authenticated();
         http.addFilterBefore(authJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 

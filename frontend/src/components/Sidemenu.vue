@@ -6,7 +6,7 @@
     <a-menu-item key="/search">Search</a-menu-item>
     <template v-if="isLogined">
       <a-menu-item key="/bookmarks">Bookmarks</a-menu-item>
-      <a-menu-item key="/about" @click="$router.push('/about')">Settings</a-menu-item>
+      <a-menu-item key="/myfanfics" @click="$router.push('/myfanfics')">My Fanfics</a-menu-item>
       <template v-if="roles.filter(i => i.name === 'ROLE_ADMIN').length > 0">
         <a-menu-item key="/about" @click="$router.push('/about')">Admin Panel</a-menu-item>
       </template>

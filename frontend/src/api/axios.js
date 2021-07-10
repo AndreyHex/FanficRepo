@@ -10,15 +10,17 @@ const apiService = axios.create({
 export default {
     fetchPage,
     login,
-    register
+    register,
+    getCurrentUser
 }
 
-function fetchPage(limit = 12) {
+function fetchPage(username = null, limit = 12) {
     return apiService.get('fanfics', {
         params: {
-            limit
+            username: username,
+            limit: limit
         }
-    }).then(respone => respone).catch(error => error)
+    })
 }
 
 function login(user) {
@@ -29,4 +31,8 @@ function login(user) {
 function register(user) {
     console.log(user)
     return apiService.post('auth/signup', user)
+}
+
+function getCurrentUser() {
+    return apiService.get('auth/current')
 }

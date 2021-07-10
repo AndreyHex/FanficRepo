@@ -32,6 +32,10 @@ public class Fanfic {
 
     private Date addedDate;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "image_id")
+    private Image image;
+
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Tag> tags;
 

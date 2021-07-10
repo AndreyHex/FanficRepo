@@ -20,6 +20,7 @@ import { mapGetters, mapActions } from "vuex"
 
 export default {
   name: 'FanficGrid',
+  props: ['username'],
   components: {
     FanficCard
   },
@@ -28,7 +29,7 @@ export default {
     ...mapActions('page', ['loadPage']),
   },
   created() {
-    this.loadPage()
+    this.loadPage(this.username)
   }
 }
 </script>

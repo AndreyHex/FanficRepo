@@ -24,12 +24,17 @@
 <script>
 import Header from '@/components/Header'
 import Sidemenu from '@/components/Sidemenu'
+import {mapActions} from "vuex";
 
 export default {
   name: 'App',
   components: {
     Header,
     Sidemenu
+  },
+  methods: mapActions('user', { check: 'checkIsLogined' }),
+  created() {
+    this.check()
   }
 }
 </script>

@@ -5,7 +5,7 @@
     </template>
     <template v-slot:actions>
       <a-button type="primary" size="small">Read</a-button>
-      <a-button type="warning" size="small">Circle</a-button>
+      <a-button type="default" size="small">Circle</a-button>
     </template>
     <a-card-meta>
       <template v-slot:title>{{fanfic(index).title}}</template>

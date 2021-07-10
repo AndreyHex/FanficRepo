@@ -61,21 +61,21 @@ public class FanficService {
         return true;
     }
 
-    public Page<FanficDto> findByUsername(String name, int page, Sort sort) {
-        return fanficRepo.findByUserId(
-                        ((User) userService.loadUserByUsername(name)).getId(),
-                        PageRequest.of(page, 8, sort))
-                .map(this::convertToDto);
-    }
-
     public FanficDto findById(Long id) {
         Fanfic fanfic = fanficRepo.findById(id).orElse(null);
         return fanfic == null ? null : convertToDto(fanfic);
     }
 
-    public Page<FanficDto> findAll(int page, Sort sort, int size) {
+    public Page<FanficDto> findAll(int page, Sort sort, int limit) {
         return fanficRepo
-                .findAll(PageRequest.of(page, size, sort))
+                .findAll(PageRequest.of(page, limit, sort))
+                .map(this::convertToDto);
+    }
+
+    public Page<FanficDto> findAll(String username, int page, Sort sort, int limit) {
+        return fanficRepo.findByUserId(
+                ((User) userService.loadUserByUsername(username)).getId(),
+                (Pageable) PageRequest.of(page, limit, sort))
                 .map(this::convertToDto);
     }
 
@@ -95,7 +95,7 @@ public class FanficService {
         fanfic.setFandom(fanficDto.getFandom());
         fanfic.setId(fanficDto.getId());
         List<Tag> tags = new ArrayList<>();
-        fanficDto.getTags().forEach(i -> tags.add(tagRepo.findByName(i).orElse(new Tag(i))));
+        if(fanficDto.getTags() != null) fanficDto.getTags().forEach(i -> tags.add(tagRepo.findByName(i).orElse(new Tag(i))));
         fanfic.setTags(tags);
         return fanfic;
     }
@@ -109,7 +109,7 @@ public class FanficService {
                 fanfic.getFandom(),
                 fanfic.getChapterList(),
                 fanfic.getAddedDate(),
-                new ArrayList<>(fanfic.getTags().stream().map(Tag::getName).collect(Collectors.toList()))
+                fanfic.getTags()
         );
     }
 

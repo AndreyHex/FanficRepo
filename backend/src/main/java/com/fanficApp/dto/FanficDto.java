@@ -1,11 +1,13 @@
 package com.fanficApp.dto;
 
 import com.fanficApp.entity.Chapter;
+import com.fanficApp.entity.Tag;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FanficDto {
 
@@ -24,15 +26,17 @@ public class FanficDto {
     }
 
     public FanficDto(String username, Long id, String title, String description, String fandom, List<Chapter> chapters,
-                     Date addedDate, List<String> tags) {
+                     Date addedDate, List<Tag> tags) {
         this.username = username;
         this.id = id;
         this.title = title;
         this.description = description;
         this.fandom = fandom;
         this.addedDate = addedDate;
-        for(Chapter chap : chapters) this.chapters.add(new ChapterStruct(chap.getNumber(), chap.getTitle()));
-        this.tags = tags;
+        if(chapters != null)
+            for(Chapter chap : chapters) this.chapters.add(new ChapterStruct(chap.getNumber(), chap.getTitle()));
+        if(tags != null)
+            this.tags = tags.stream().map(Tag::getName).collect(Collectors.toList());
     }
 
     static private class ChapterStruct {

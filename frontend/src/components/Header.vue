@@ -2,7 +2,7 @@
   <div class="header-content">
     <div>
       <router-link to="/">
-        <a-typography-title level="3" class="title">FanficRepo</a-typography-title>
+        <a-typography-title level=3 class="title">FanficRepo</a-typography-title>
       </router-link>
     </div>
     <div style="margin-left: auto">

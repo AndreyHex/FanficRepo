@@ -18,11 +18,10 @@ const getters = {
 }
 
 const actions = {
-    loadPage({commit}) {
-        console.log('loading page')
+    loadPage({commit}, username= null) {
         commit('setPageLoading')
-        api.fetchPage().then(response => commit('setPageSuccess', response.data),
-                            error => commit('setPageError', error))
+        api.fetchPage(username).then(response => commit('setPageSuccess', response.data))
+            .catch(error => commit('setPageError', error))
     }
 }
 
@@ -33,7 +32,6 @@ const mutations = {
     setPageSuccess(state, payload) {
         state.page = payload
         state.loading = false
-        console.log('loaded page'+state.page)
     },
     setPageError(state, error) {
         state.page = { error }

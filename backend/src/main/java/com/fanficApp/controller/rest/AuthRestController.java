@@ -8,6 +8,7 @@ import com.fanficApp.repository.UserRepo;
 import com.fanficApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,9 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class AuthRestController {
 
     @Autowired
-    private UserRepo userRepo;
-    @Autowired
     private UserService userService;
+
+    @GetMapping("/current")
+    public ResponseEntity<User> getCurrentUser() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(user);
+    }
 
     @PostMapping("/signup")
     @ResponseBody

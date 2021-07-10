@@ -22,14 +22,26 @@ public class FanficRestController {
     @GetMapping
     public  ResponseEntity<?> getAllFanfics(@RequestParam Optional<Integer> page,
                                             @RequestParam Optional<Integer> limit,
-                                            @RequestParam(name = "sorted_by") Optional<String> sortedBy) {
+                                            @RequestParam(name = "sorted_by") Optional<String> sortedBy,
+                                            @RequestParam Optional<String> username) {
         Sort sort;
         if(sortedBy.orElse("").equals("date")) sort = Sort.by("addedDate");
         else sort = Sort.unsorted();
-        Page<FanficDto> ffList = fanficService.findAll(
-                page.orElse(0),
-                sort,
-                limit.orElse(6));
+        Page<FanficDto> ffList;
+
+        if(username.isEmpty()) {
+            ffList = fanficService.findAll(
+                    page.orElse(0),
+                    sort,
+                    limit.orElse(6));
+        } else {
+            ffList = fanficService.findAll(
+                    username.orElse(""),
+                    page.orElse(0),
+                    sort,
+                    limit.orElse(6));
+        }
+
         if(ffList.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error("Not found."));
         return ResponseEntity.ok(ffList);
     }
