@@ -37,6 +37,7 @@ public class FanficService {
     public FanficDto saveFanfic(FanficDto fanficDto) {
         fanficDto.setId(null);
         Fanfic fanfic = convertToEntity(fanficDto);
+        fanfic.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         if(fanficDto.getImgId() != null) {
             Optional<Image> img = imageRepo.findById(fanficDto.getImgId());
             img.ifPresent(fanfic::setImage);
