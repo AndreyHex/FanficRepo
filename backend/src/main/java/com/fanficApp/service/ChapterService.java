@@ -28,7 +28,7 @@ public class ChapterService {
     }
 
     public List<ChapterDto> findByFanficId(Long ffId) {
-        return chapterRepo.findByFanficId(ffId).stream().map(this::convertToDto).collect(Collectors.toList());
+        return chapterRepo.findByFanficIdOrderByNumberAsc(ffId).stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     public boolean saveChapter(long fanficId, List<ChapterDto> chapterDtoList) {
