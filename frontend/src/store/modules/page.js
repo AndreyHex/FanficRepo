@@ -18,9 +18,9 @@ const getters = {
 }
 
 const actions = {
-    loadPage({commit}, username= null) {
+    loadPage({commit}, payload) {
         commit('setPageLoading')
-        api.fetchPage(username).then(response => commit('setPageSuccess', response.data))
+        api.fetchPage(payload.username, payload.page).then(response => commit('setPageSuccess', response.data))
             .catch(error => commit('setPageError', error))
     }
 }

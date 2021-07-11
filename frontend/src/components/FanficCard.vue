@@ -1,7 +1,7 @@
 <template>
   <a-card  hoverable shadow="hover" class="card">
     <template v-slot:cover>
-      <img src="https://via.placeholder.com/500"/>
+      <img :src="fanfic(index).imgUrl"/>
     </template>
     <template v-slot:actions>
       <a-button type="primary" size="small">Read</a-button>
@@ -33,6 +33,6 @@ export default {
 
 <style scoped>
   .card {
-    margin: 10px;
+    margin: 6px;
   }
 </style>

@@ -5,11 +5,21 @@
   <template v-if="!isLoading">
     <a-row>
       <template v-for="index in page.content.length" :key="index">
-        <a-col span="4">
+        <a-col :xs="12" :md="6" :xl="4">
           <FanficCard :index="index-1"/>
         </a-col>
       </template>
     </a-row>
+    <a-row>
+      <a-col span="24">
+        <a-pagination
+            :current="page.number+1"
+            :page-size="page.size"
+            :total="page.totalElements" @change="onChange" />
+      </a-col>
+    </a-row>
+
+
   </template>
 
 </template>
@@ -26,10 +36,16 @@ export default {
   },
   computed: mapGetters('page', { page: 'getPage',  isLoading: 'isLoading' }),
   methods: {
-    ...mapActions('page', ['loadPage']),
+    ...mapActions('page', { loadPage: 'loadPage'} ),
+    onChange(current) {
+      this.loadPage({
+        username: this.username,
+        page: current-1
+      })
+    },
   },
   created() {
-    this.loadPage(this.username)
+    this.loadPage({ username: this.username})
   }
 }
 </script>

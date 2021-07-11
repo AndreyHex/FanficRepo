@@ -3,6 +3,7 @@ package com.fanficApp.controller.rest;
 import com.fanficApp.dto.FanficDto;
 import com.fanficApp.dto.response.Message;
 import com.fanficApp.dto.response.Error;
+import com.fanficApp.entity.Fanfic;
 import com.fanficApp.service.FanficService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

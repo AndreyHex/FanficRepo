@@ -10,34 +10,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/chapters")
+@RequestMapping("/api/fanfics")
 public class ChapterRestController {
 
     @Autowired
     ChapterService chapterService;
 
-    @PutMapping
-    public ResponseEntity<?> createChapter(@RequestBody ChapterDto chapterDto) {
+    @PutMapping("/{ffId}/chapters")
+    public ResponseEntity<?> createChapter(@PathVariable Long ffId, @RequestBody ChapterDto chapterDto) {
         if(!chapterService.saveChapter(chapterDto)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access denied.");
         }
         return ResponseEntity.ok("Done");
     }
 
-    @DeleteMapping("/delete/{ffId}/{number}")
+    @DeleteMapping("/{ffId}/chapters/{number}")
     public ResponseEntity<?> deleteByFanficIdAndNumber(@PathVariable Long ffId, @PathVariable Integer number) {
         if(chapterService.deleteByFanficIdAndNumber(ffId, number)) return ResponseEntity.ok("Done");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access denied.");
     }
 
-    @GetMapping("/{ffId}")
+    @GetMapping("/{ffId}/chapters")
     public ResponseEntity<?> getChaptersByFanficId(@PathVariable Long ffId) {
         List<ChapterDto> chapters = chapterService.findByFanficId(ffId);
         if(chapters.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found.");
         return ResponseEntity.ok(chapters);
     }
 
-    @GetMapping("/{ffId}/{number}")
+    @GetMapping("/{ffId}/chapters/{number}")
     public ResponseEntity<?> getChapter(@PathVariable Long ffId, @PathVariable Integer number) {
         ChapterDto chapterDto = chapterService.findByFanficIdAndNumber(ffId, number);
         if(chapterDto == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found.");

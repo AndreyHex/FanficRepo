@@ -103,6 +103,14 @@ public class Fanfic {
         this.tags = tags;
     }
 
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Fanfic{" +

@@ -8,19 +8,30 @@ const apiService = axios.create({
 })
 
 export default {
+    fetchFanfic,
+    saveFanfic,
     fetchPage,
     login,
     register,
     getCurrentUser
 }
 
-function fetchPage(username = null, limit = 12) {
+function fetchPage(username = null, page = 0, limit = 12) {
     return apiService.get('fanfics', {
         params: {
             username: username,
+            page: page,
             limit: limit
         }
     })
+}
+
+function fetchFanfic(id) {
+    return apiService.get('fanfics/'+id)
+}
+
+function saveFanfic(fanfic) {
+    return apiService.post('fanfics', fanfic)
 }
 
 function login(user) {

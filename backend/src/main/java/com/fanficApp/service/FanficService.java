@@ -2,9 +2,11 @@ package com.fanficApp.service;
 
 import com.fanficApp.dto.FanficDto;
 import com.fanficApp.entity.Fanfic;
+import com.fanficApp.entity.Image;
 import com.fanficApp.entity.Tag;
 import com.fanficApp.entity.User;
 import com.fanficApp.repository.FanficRepo;
+import com.fanficApp.repository.ImageRepo;
 import com.fanficApp.repository.TagRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,10 +31,16 @@ public class FanficService {
     UserService userService;
     @Autowired
     TagRepo tagRepo;
+    @Autowired
+    ImageRepo imageRepo;
 
     public FanficDto saveFanfic(FanficDto fanficDto) {
         fanficDto.setId(null);
         Fanfic fanfic = convertToEntity(fanficDto);
+
+        Optional<Image> img = imageRepo.findById(fanficDto.getImgId());
+        img.ifPresent(fanfic::setImage);
+
         return convertToDto(fanficRepo.save(fanfic));
     }
 
@@ -107,6 +116,7 @@ public class FanficService {
                 fanfic.getTitle(),
                 fanfic.getDescription(),
                 fanfic.getFandom(),
+                fanfic.getImage(),
                 fanfic.getChapterList(),
                 fanfic.getAddedDate(),
                 fanfic.getTags()

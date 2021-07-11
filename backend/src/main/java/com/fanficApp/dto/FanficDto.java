@@ -1,6 +1,7 @@
 package com.fanficApp.dto;
 
 import com.fanficApp.entity.Chapter;
+import com.fanficApp.entity.Image;
 import com.fanficApp.entity.Tag;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -22,10 +23,13 @@ public class FanficDto {
     private List<ChapterStruct> chapters = new ArrayList<>();
     private List<String> tags;
 
+    private Long imgId;
+    private String imgUrl;
+
     public FanficDto() {
     }
 
-    public FanficDto(String username, Long id, String title, String description, String fandom, List<Chapter> chapters,
+    public FanficDto(String username, Long id, String title, String description, String fandom, Image image, List<Chapter> chapters,
                      Date addedDate, List<Tag> tags) {
         this.username = username;
         this.id = id;
@@ -33,6 +37,10 @@ public class FanficDto {
         this.description = description;
         this.fandom = fandom;
         this.addedDate = addedDate;
+        if(image != null) {
+            this.imgId = image.getId();
+            this.imgUrl = image.getUrl();
+        }
         if(chapters != null)
             for(Chapter chap : chapters) this.chapters.add(new ChapterStruct(chap.getNumber(), chap.getTitle()));
         if(tags != null)
@@ -111,5 +119,21 @@ public class FanficDto {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public Long getImgId() {
+        return imgId;
+    }
+
+    public void setImgId(Long imgId) {
+        this.imgId = imgId;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

@@ -1,23 +1,29 @@
 <template>
 
-  <a-row>
+  <a-row style="padding: 10px">
     <a-col>
-      <a-form>
+      <a-form layout="vertical">
 
-        <a-form-item>
-          <a-textarea
-              placeholder="Title"
+        <a-form-item label="Title:">
+          <a-input
+              v-model:value="title"
+              placeholder="title"
+              type="textarea"
               auto-size />
         </a-form-item>
-        <a-form-item>
-          <a-textarea
-              placeholder="Description"
+        <a-form-item label="Description:">
+          <a-input
+              v-model:value="description"
+              placeholder="description"
+              type="textarea"
               :auto-size="{ minRows: 2 }"
           />
         </a-form-item>
-        <a-form-item>
-          <a-textarea
+        <a-form-item label="Fandom:">
+          <a-input
+              v-model:value="fandom"
               placeholder="Fandom"
+              type="textarea"
               auto-size />
         </a-form-item>
 
@@ -48,7 +54,7 @@
         </div>
 
         <!-- image upload -->
-        <div>
+        <div style="padding: 10px;">
           <a-upload
               list-type="picture"
               action="/api/upload"
@@ -63,6 +69,13 @@
           </a-upload>
         </div>
 
+        <a-form-item style="padding: 10px">
+          <a-button type="primary" :loading="isUploading" @click="submitFanfic">Save Fanfic</a-button>
+        </a-form-item>
+        <template v-if="error.length > 0">
+          <a-alert type="error" :message="error" banner />
+        </template>
+
 
       </a-form>
     </a-col>
@@ -71,9 +84,15 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from "vuex";
+
 export default {
   data() {
     return {
+      title: '',
+      fandom: '',
+      description: '',
+      img: {},
       tags: ['Action', 'Comedy'],
       inputVisible: false,
       inputValue: '',
@@ -81,9 +100,26 @@ export default {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       },
       fileList: [],
+      error: ''
     };
   },
+  computed: mapGetters('fanfics', {
+    isUploading: 'isUploading',
+    status: 'getStatus'
+  }),
   methods: {
+    ...mapActions('fanfics', {save: 'saveFanfic'}),
+    submitFanfic() {
+      if(this.title.length > 0 && this.description.length > 0) {
+        this.save({
+          title: this.title,
+          description: this.description,
+          fandom: this.fandom,
+          tags: this.tags,
+          imgId: this.fileList[0].response.id
+        }).then(() => this.$router.push('/myfanfics'))
+      }
+    },
     handleTagClose(removedTag) {
       const tags = this.tags.filter(tag => tag !== removedTag);
       this.tags = tags;
@@ -117,3 +153,8 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+
+</style>
