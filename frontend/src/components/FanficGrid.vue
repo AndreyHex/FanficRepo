@@ -45,7 +45,7 @@ export default {
     },
   },
   created() {
-    this.loadPage({ username: this.username})
+    if(isNaN(this.page)) this.loadPage({ username: this.username})
   }
 }
 </script>

@@ -37,10 +37,10 @@ public class FanficService {
     public FanficDto saveFanfic(FanficDto fanficDto) {
         fanficDto.setId(null);
         Fanfic fanfic = convertToEntity(fanficDto);
-
-        Optional<Image> img = imageRepo.findById(fanficDto.getImgId());
-        img.ifPresent(fanfic::setImage);
-
+        if(fanficDto.getImgId() != null) {
+            Optional<Image> img = imageRepo.findById(fanficDto.getImgId());
+            img.ifPresent(fanfic::setImage);
+        }
         return convertToDto(fanficRepo.save(fanfic));
     }
 
