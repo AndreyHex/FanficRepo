@@ -4,12 +4,24 @@ import store from '@/store'
 import Home from '@/views/Home.vue'
 import MyFanfics from "@/views/MyFanfics";
 import FanficGrid from "@/components/FanficGrid";
+import Fanfic from "@/components/Fanfic";
+import ChapterEditor from "@/components/ChapterEditor";
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    children: [
+      {
+        path: '',
+        component: FanficGrid
+      },
+      {
+        path: 'fanfic/:id',
+        component: Fanfic
+      }
+    ]
   },
   {
     path: '/myfanfics',
@@ -21,14 +33,18 @@ const routes = [
     },
     children: [
       {
-        path: '/create',
-        component: () => import('@/components/Editor.vue')
-      },
-      {
         path: '',
         props: true,
         component: FanficGrid
       },
+      {
+        path: 'create',
+        component: () => import('@/components/Editor.vue')
+      },
+      {
+        path: ':id/details',
+        component: ChapterEditor
+      }
     ]
 
   },

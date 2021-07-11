@@ -1,30 +1,29 @@
 <template>
 
   <a-row style="padding: 10px">
-    <a-col>
+    <a-col span="12">
       <a-form layout="vertical">
 
         <a-form-item label="Title:">
           <a-input
               v-model:value="title"
               placeholder="title"
-              type="textarea"
-              auto-size />
+              type="textarea"> {{ fanfic?.title }} </a-input>
         </a-form-item>
         <a-form-item label="Description:">
-          <a-input
+          <a-textarea
               v-model:value="description"
               placeholder="description"
               type="textarea"
-              :auto-size="{ minRows: 2 }"
-          />
+              :auto-size="{ minRows: 2, maxRows: 6 }"
+          >  {{ fanfic?.description }} </a-textarea>
         </a-form-item>
         <a-form-item label="Fandom:">
           <a-input
               v-model:value="fandom"
               placeholder="Fandom"
               type="textarea"
-              auto-size />
+              auto-size> {{ fanfic?.fandom }}  </a-input>
         </a-form-item>
 
         <!-- tags -->
@@ -87,6 +86,8 @@
 import {mapGetters, mapActions} from "vuex";
 
 export default {
+  name: 'Editor',
+  props: ['fanficId'],
   data() {
     return {
       title: '',
@@ -105,10 +106,11 @@ export default {
   },
   computed: mapGetters('fanfics', {
     isUploading: 'isUploading',
-    status: 'getStatus'
+    status: 'getStatus',
+    fanfic: 'getFanfic'
   }),
   methods: {
-    ...mapActions('fanfics', {save: 'saveFanfic'}),
+    ...mapActions('fanfics', {save: 'saveFanfic', load: 'loadFanfic'}),
     submitFanfic() {
       if(this.title.length > 0 && this.description.length > 0) {
         this.save({
@@ -151,5 +153,8 @@ export default {
       this.fileList = info.fileList;
     },
   },
+  beforeMount() {
+    if(this.fanficId) this.load(this.fanficId)
+  }
 };
 </script>

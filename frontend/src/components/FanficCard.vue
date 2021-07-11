@@ -1,10 +1,13 @@
 <template>
   <a-card  hoverable shadow="hover" class="card">
     <template v-slot:cover>
+      <template v-if="!fanfic(index).imgUrl">
+        <a-empty />
+      </template>
       <img :src="fanfic(index).imgUrl"/>
     </template>
     <template v-slot:actions>
-      <a-button type="primary" size="small">Read</a-button>
+      <a-button type="primary" size="small" @click="$router.push('/fanfic/'+fanfic(index).id)">Read</a-button>
       <a-button type="default" size="small">Circle</a-button>
     </template>
     <a-card-meta>

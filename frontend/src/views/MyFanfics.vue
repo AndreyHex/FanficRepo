@@ -1,6 +1,6 @@
 <template>
   <a-row>
-    <a-button @click="$router.push('create')">Create new Fanfic</a-button>
+    <a-button @click="$router.push('/myfanfics/create')">Create new Fanfic</a-button>
   </a-row>
 
     <router-view :username="this.username"/>

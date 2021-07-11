@@ -31,16 +31,17 @@ public class ChapterService {
         return chapterRepo.findByFanficId(ffId).stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    public boolean saveChapter(ChapterDto chapterDto) {
+    public boolean saveChapter(long fanficId, List<ChapterDto> chapterDtoList) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Fanfic fanfic = fanficRepo.findById(chapterDto.getFanficId()).orElse(null);
+
+        Fanfic fanfic = fanficRepo.findById(fanficId).orElse(null);
         if(fanfic == null
                 || !user.getUsername().equals(fanfic.getUser().getUsername())
                     && !user.getRoles().stream().anyMatch(i -> i.getName().equals("ROLE_ADMIN"))) {
             return false;
         }
-        Chapter chapter = convertToEntity(chapterDto);
-        chapterRepo.save(chapter);
+        List<Chapter> chapters = chapterDtoList.stream().map(this::convertToEntity).collect(Collectors.toList());
+        chapterRepo.saveAll(chapters);
         return true;
     }
 

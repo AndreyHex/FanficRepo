@@ -2,7 +2,7 @@
   <template v-if="isLoading">
     <span>Loading page</span>
   </template>
-  <template v-if="!isLoading">
+  <template v-if="!isLoading && !page.error">
     <a-row>
       <template v-for="index in page.content.length" :key="index">
         <a-col :xs="12" :md="6" :xl="4">

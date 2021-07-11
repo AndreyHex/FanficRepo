@@ -17,8 +17,8 @@ public class ChapterRestController {
     ChapterService chapterService;
 
     @PutMapping("/{ffId}/chapters")
-    public ResponseEntity<?> createChapter(@PathVariable Long ffId, @RequestBody ChapterDto chapterDto) {
-        if(!chapterService.saveChapter(chapterDto)) {
+    public ResponseEntity<?> createChapter(@PathVariable Long ffId, @RequestBody List<ChapterDto> chapterDtoList) {
+        if(!chapterService.saveChapter(ffId, chapterDtoList)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access denied.");
         }
         return ResponseEntity.ok("Done");

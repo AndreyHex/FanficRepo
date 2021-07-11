@@ -1,14 +1,10 @@
 <template>
-  <FanficGrid/>
+  <router-view/>
 </template>
 
 <script>
-import FanficGrid from '@/components/FanficGrid'
 
 export default {
   name: 'Home',
-  components: {
-    FanficGrid
-  }
 }
 </script>

@@ -10,7 +10,10 @@ const getters = {
         return state.fanfic
     },
     isUploading(state) {
-        return state.status === 'loading'
+        return state.status === 'uploading'
+    },
+    isLoading(state) {
+      return state.status === 'loading'
     },
     getStatus(state) {
         return state.status
@@ -18,11 +21,19 @@ const getters = {
 }
 
 const actions = {
-    loadFanfic({commit}, id) {
+    loadFanfic({dispatch, commit}, id) {
         commit('setLoading')
         api.fetchFanfic(id)
-            .then(response => commit('setSuccess', response.data))
+            .then(response => {
+                commit('setSuccess', response.data)
+                dispatch('loadChapters')
+            })
             .catch(error => commit('setError', error))
+    },
+    loadChapters({commit, state}) {
+        api.fetchFanficChapters(state.fanfic.id)
+            .then(response => commit('setChapters', response.data))
+
     },
     saveFanfic({commit}, fanfic) {
         commit('setUploading')
@@ -53,6 +64,9 @@ const mutations = {
     },
     setError(state, data) {
         state.status = data
+    },
+    setChapters(state, data) {
+        state.fanfic.chapters = data
     }
 }
 

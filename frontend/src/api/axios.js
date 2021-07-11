@@ -13,7 +13,8 @@ export default {
     fetchPage,
     login,
     register,
-    getCurrentUser
+    getCurrentUser,
+    fetchFanficChapters
 }
 
 function fetchPage(username = null, page = 0, limit = 12) {
@@ -28,6 +29,10 @@ function fetchPage(username = null, page = 0, limit = 12) {
 
 function fetchFanfic(id) {
     return apiService.get('fanfics/'+id)
+}
+
+function fetchFanficChapters(id) {
+    return apiService.get('fanfics/'+id+'/chapters')
 }
 
 function saveFanfic(fanfic) {
