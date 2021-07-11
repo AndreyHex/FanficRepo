@@ -22,8 +22,3 @@ export default {
   computed: mapGetters('user', { roles: 'getRoles', isLogined: 'isLogined' })
 }
 </script>
-
-<style scoped>
-
-
-</style>
