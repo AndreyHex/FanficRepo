@@ -18,7 +18,7 @@ public class DataSourceConfig {
 
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath() + dbUri.getQuery();
+        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath() + "?" + dbUri.getQuery();
 
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("com.mysql.jdbc.Driver");
