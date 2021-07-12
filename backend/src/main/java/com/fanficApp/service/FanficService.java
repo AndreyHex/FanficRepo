@@ -97,13 +97,17 @@ public class FanficService {
 
     private Fanfic convertToEntity(FanficDto fanficDto) {
         Fanfic fanfic = new Fanfic();
+
         if (fanficDto.getId() != null) fanfic = fanficRepo.findById(fanficDto.getId()).orElse(new Fanfic());
         else fanfic.setAddedDate(new Date());
+
         fanfic.setTitle(fanficDto.getTitle());
         fanfic.setDescription(fanficDto.getDescription());
+
         if(fanfic.getUser() == null) fanfic.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        System.out.println("Fanfic user set: "+fanfic.getUser());
         fanfic.setFandom(fanficDto.getFandom());
-        fanfic.setId(fanficDto.getId());
+
         List<Tag> tags = new ArrayList<>();
         if(fanficDto.getTags() != null) fanficDto.getTags().forEach(i -> tags.add(tagRepo.findByName(i).orElse(new Tag(i))));
         fanfic.setTags(tags);

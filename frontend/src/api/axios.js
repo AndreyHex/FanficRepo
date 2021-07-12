@@ -7,6 +7,11 @@ const apiService = axios.create({
     }
 })
 
+apiService.interceptors.request.use((config) => {
+    config.headers.Authorization = 'Bearer ' + localStorage.getItem('token')
+    return config;
+});
+
 export default {
     fetchFanfic,
     saveFanfic,
@@ -57,3 +62,4 @@ function register(user) {
 function getCurrentUser() {
     return apiService.get('auth/current')
 }
+

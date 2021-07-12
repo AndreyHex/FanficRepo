@@ -27,13 +27,11 @@ public class AuthRestController {
     @PostMapping("/signup")
     @ResponseBody
     public ResponseEntity<?> signUp(@RequestBody User user) {
-        AuthResponse response;
         try {
-            response = userService.registerUser(user);
+            return ResponseEntity.ok(userService.registerUser(user));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Error(e.getMessage()));
         }
-        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/signin")

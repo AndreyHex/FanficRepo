@@ -54,15 +54,16 @@ public class UserService implements UserDetailsService {
         return user.orElse(new User());
     }
 
-    public void saveUser(User user) throws EntityExistsException {
+    public User saveUser(User user) throws EntityExistsException {
         if(userRepo.existsByUsername(user.getUsername())) {
             throw new EntityExistsException("User exists.");
         }
         user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setStatus(true);
-        userRepo.saveAndFlush(user);
+        User u = userRepo.saveAndFlush(user);
         roleRepo.flush();
+        return u;
     }
 
     public List<User> findAll() {
@@ -86,9 +87,8 @@ public class UserService implements UserDetailsService {
         u.setUsername(user.getUsername());
         u.setPassword(user.getPassword());
 
-        saveUser(user);
+        user = saveUser(user);
         String token = authenticateUser(u);
-        user.setPassword("");
         return new AuthResponse("Register success", user, token);
     }
 
