@@ -1,6 +1,7 @@
 package com.fanficApp.controller.rest;
 
 import com.fanficApp.dto.ChapterDto;
+import com.fanficApp.dto.response.Error;
 import com.fanficApp.service.ChapterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +19,11 @@ public class ChapterRestController {
 
     @PutMapping("/{ffId}/chapters")
     public ResponseEntity<?> createChapter(@PathVariable Long ffId, @RequestBody List<ChapterDto> chapterDtoList) {
-        if(!chapterService.saveChapter(ffId, chapterDtoList)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access denied.");
+        try {
+            return ResponseEntity.ok(chapterService.saveChapter(ffId, chapterDtoList));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Error(e.getMessage()));
         }
-        return ResponseEntity.ok("Done");
     }
 
     @DeleteMapping("/{ffId}/chapters/{number}")

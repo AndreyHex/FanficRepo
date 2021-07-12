@@ -14,7 +14,8 @@ export default {
     login,
     register,
     getCurrentUser,
-    fetchFanficChapters
+    fetchFanficChapters,
+    saveChapters
 }
 
 function fetchPage(username = null, page = 0, limit = 12) {
@@ -37,6 +38,10 @@ function fetchFanficChapters(id) {
 
 function saveFanfic(fanfic) {
     return apiService.post('fanfics', fanfic)
+}
+
+function saveChapters(fanfic) {
+    return apiService.put('/fanfics/'+fanfic.id+'/chapters', fanfic.chapters)
 }
 
 function login(user) {

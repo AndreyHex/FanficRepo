@@ -8,7 +8,7 @@ const state = () => ({
 
 const getters = {
     getUsername(state) {
-        return state.user.username
+        return state.user.username ?? ''
     },
     isLogined(state) {
         return state.status

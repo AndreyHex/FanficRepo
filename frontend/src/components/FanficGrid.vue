@@ -5,13 +5,13 @@
   <template v-if="!isLoading && !page.error">
     <a-row>
       <template v-for="index in page.content.length" :key="index">
-        <a-col :xs="12" :md="6" :xl="4">
+        <a-col :xs="24" :sm="8" :md="6" :xl="4">
           <FanficCard :index="index-1"/>
         </a-col>
       </template>
     </a-row>
-    <a-row>
-      <a-col span="24">
+    <a-row justify="center">
+      <a-col>
         <a-pagination
             :current="page.number+1"
             :page-size="page.size"

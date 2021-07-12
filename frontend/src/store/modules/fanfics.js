@@ -48,6 +48,16 @@ const actions = {
                     reject()
                 })
         })
+    },
+    addChapter({commit}) {
+        commit('addChapter')
+    },
+    saveChapters({commit, state}) {
+        commit('setUploading')
+        api.saveChapters(state.fanfic)
+            .then(response => {
+                commit('setChapters', response.data)
+            })
     }
 }
 
@@ -67,6 +77,21 @@ const mutations = {
     },
     setChapters(state, data) {
         state.fanfic.chapters = data
+        state.status = 'done'
+    },
+    addChapter(state) {
+        state.fanfic.chapters.push({
+            number: state.fanfic.chapters?.length+1,
+            fanficId: state.fanfic.id,
+            title: '',
+            text: ''
+        })
+    },
+    setTitle(state, data) {
+        state.fanfic.chapters[data.index].title = data.title
+    },
+    setText(state, data) {
+        state.fanfic.chapters[data.index].text = data.text
     }
 }
 

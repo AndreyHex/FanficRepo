@@ -8,7 +8,12 @@
     </template>
     <template v-slot:actions>
       <a-button type="primary" size="small" @click="$router.push('/fanfic/'+fanfic(index).id)">Read</a-button>
-      <a-button type="default" size="small">Circle</a-button>
+      <template v-if="fanfic(index).username === username">
+        <a-button type="default" size="small" @click="$router.push('/myfanfics/'+fanfic(index).id+'/details')">Edit</a-button>
+      </template>
+      <template v-else>
+        <div></div>
+      </template>
     </template>
     <a-card-meta>
       <template v-slot:title>{{fanfic(index).title}}</template>
@@ -30,6 +35,7 @@ export default {
   props: ['index'],
   computed: {
     ...mapGetters('page', { fanfic: 'getFanficByIndex' }),
+    ...mapGetters('user', { username: 'getUsername'})
   }
 }
 </script>
